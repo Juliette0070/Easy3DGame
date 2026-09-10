@@ -445,6 +445,7 @@
 "Assets/Scripts/Orb.cs"
 "Assets/Scripts/Player.cs"
 "Assets/Scripts/Rune.cs"
+"Assets/Scripts/VoiceOverTrigger.cs"
 -langversion:9.0
 /deterministic
 /optimize+
