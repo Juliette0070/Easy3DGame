@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class VoiceOverTrigger : MonoBehaviour {
     public AudioSource audioSource;
-    public AudioClip audioClip;
+    public List<AudioClip> audioClips;
 
     private void OnTriggerEnter(Collider other) {
         if(other.gameObject.name == "FirstPersonController") {
             audioSource.Stop();
-            audioSource.clip = audioClip;
+            System.Random random = new();
+            audioSource.clip = audioClips[random.Next(audioClips.Count)];
             audioSource.Play();
         }
     }
