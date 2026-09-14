@@ -1,0 +1,29 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+// Deer script
+
+public class Deer : MonoBehaviour {
+    public AudioSource deerSounds;
+    public List<AudioClip> audioClips;
+    public List<Transform> pathPoints;
+    public int pathIndex;
+    
+
+    private void OnTriggerEnter(Collider other) {
+        if (other.gameObject.name == "FirstPersonController") {
+            deerSounds.Stop();
+            System.Random random = new();
+            deerSounds.clip = audioClips[random.Next(audioClips.Count)];
+            deerSounds.Play();
+        }
+        else if (pathPoints.Contains(other.transform)) {
+            pathIndex++;
+            if (pathIndex>=pathPoints.Count) {
+                pathIndex=0;
+            }
+        }
+    }
+}

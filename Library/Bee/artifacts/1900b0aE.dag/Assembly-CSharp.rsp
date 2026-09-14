@@ -442,6 +442,7 @@
 "Assets/ModularFirstPersonController/FirstPersonController/FirstPersonController.cs"
 "Assets/Polytope Studio/Lowpoly_Demos/Environment_Free/Helpers/MouseLook.cs"
 "Assets/Polytope Studio/Lowpoly_Demos/Environment_Free/Helpers/PlayerMovement.cs"
+"Assets/Scripts/Deer.cs"
 "Assets/Scripts/Orb.cs"
 "Assets/Scripts/Player.cs"
 "Assets/Scripts/Rune.cs"

@@ -194,9 +194,6 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7402009758359158996, guid: 4ecab060b0afb5d4db61f7f1311b9e24, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7521947902912997847}
-    - targetCorrespondingSourceObject: {fileID: 7402009758359158996, guid: 4ecab060b0afb5d4db61f7f1311b9e24, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 4407625053241824985}
   m_SourcePrefab: {fileID: 100100000, guid: 4ecab060b0afb5d4db61f7f1311b9e24, type: 3}
 --- !u!4 &4894805699863596558 stripped
@@ -209,22 +206,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7402009758359158996, guid: 4ecab060b0afb5d4db61f7f1311b9e24, type: 3}
   m_PrefabInstance: {fileID: 3323445270265730144}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7521947902912997847
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5234879816802309300}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 776250efe13afcd449d8150f6edae450, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::VoiceOverTrigger
-  audioSource: {fileID: 42442877279617496}
-  audioClips:
-  - {fileID: 8300000, guid: dac90c49c002f9c4a8ecb2a035626654, type: 3}
-  - {fileID: 8300000, guid: 8726ec81dd4a31a4e91816aa3f803898, type: 3}
 --- !u!65 &4407625053241824985
 BoxCollider:
   m_ObjectHideFlags: 0
