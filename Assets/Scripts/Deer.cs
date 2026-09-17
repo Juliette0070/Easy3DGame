@@ -19,7 +19,8 @@ public class Deer : MonoBehaviour {
             deerSounds.clip = audioClips[random.Next(audioClips.Count)];
             deerSounds.Play();
         }
-        else if (pathPoints.Contains(other.transform)) {
+        else if (pathPoints[pathIndex] == other.transform) {
+            //print("pathPoint: " + pathPoints[pathIndex]);
             pathIndex++;
             if (pathIndex>=pathPoints.Count) {
                 pathIndex=0;

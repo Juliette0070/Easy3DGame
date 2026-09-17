@@ -1,0 +1,53 @@
+using UnityEngine;
+
+[RequireComponent(typeof(ithappy.Animals_FREE.CreatureMover))]
+public class MoveAnimalInput : MonoBehaviour {
+
+    private ithappy.Animals_FREE.CreatureMover m_Mover;
+
+    private Vector2 m_Axis;
+    private bool m_IsRun;
+    private bool m_IsJump;
+
+    private Vector3 m_Target;
+
+    private Deer m_Deer;
+
+    private void Awake() {
+        m_Mover = GetComponent<ithappy.Animals_FREE.CreatureMover>();
+        m_Deer = GetComponent<Deer>();
+    }
+
+    private void Update() {
+        GatherInput();
+        SetInput();
+    }
+
+    public void GatherInput() {
+        m_IsRun = false;
+        m_IsJump = false;
+
+        Transform m_Destination = m_Deer.pathPoints[m_Deer.pathIndex];
+        if (m_Destination == null) {
+            m_Axis = Vector2.zero;
+            return;
+        }
+        Vector3 direction = m_Destination.position - transform.position;
+        direction.y = 0f;
+        if (direction.magnitude <= 0.2f) {
+            m_Axis = Vector2.zero;
+            return;
+        }
+        direction.Normalize();
+        m_Axis = new Vector2(direction.x, direction.z);
+
+        m_Target = m_Destination.position;
+        
+        // Debug.DrawRay(transform.position, direction * 2f, Color.red);
+        // Debug.DrawRay(transform.position, transform.forward * 2f, Color.blue);
+    }
+
+    public void SetInput() {
+        m_Mover?.SetInput(in m_Axis, in m_Target, in m_IsRun, m_IsJump);
+    }
+}
