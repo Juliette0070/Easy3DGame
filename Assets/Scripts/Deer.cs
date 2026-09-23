@@ -5,13 +5,16 @@ using UnityEngine.UI;
 
 // Deer script
 
-public class Deer : MonoBehaviour {
+public class Deer : MonoBehaviour, IAnimal {
     public AudioSource deerSounds;
     public List<AudioClip> audioClips;
     public List<Transform> pathPoints;
     public int pathIndex;
-    
 
+    public Transform getDestination() {
+        return pathPoints[pathIndex];
+    }
+    
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject.name == "FirstPersonController") {
             deerSounds.Stop();

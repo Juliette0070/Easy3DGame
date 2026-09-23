@@ -3,19 +3,19 @@ using UnityEngine;
 [RequireComponent(typeof(ithappy.Animals_FREE.CreatureMover))]
 public class MoveAnimalInput : MonoBehaviour {
 
-    private ithappy.Animals_FREE.CreatureMover m_Mover;
+    protected ithappy.Animals_FREE.CreatureMover m_Mover;
 
-    private Vector2 m_Axis;
-    private bool m_IsRun;
-    private bool m_IsJump;
+    protected Vector2 m_Axis;
+    protected bool m_IsRun;
+    protected bool m_IsJump;
 
-    private Vector3 m_Target;
+    protected Vector3 m_Target;
 
-    private Deer m_Deer;
+    protected IAnimal m_Animal;
 
     private void Awake() {
         m_Mover = GetComponent<ithappy.Animals_FREE.CreatureMover>();
-        m_Deer = GetComponent<Deer>();
+        m_Animal = GetComponent<IAnimal>();
     }
 
     private void Update() {
@@ -23,11 +23,11 @@ public class MoveAnimalInput : MonoBehaviour {
         SetInput();
     }
 
-    public void GatherInput() {
+    public virtual void GatherInput() {
         m_IsRun = false;
         m_IsJump = false;
 
-        Transform m_Destination = m_Deer.pathPoints[m_Deer.pathIndex];
+        Transform m_Destination = m_Animal.getDestination();
         if (m_Destination == null) {
             m_Axis = Vector2.zero;
             return;
