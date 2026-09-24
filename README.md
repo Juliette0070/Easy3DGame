@@ -8,5 +8,7 @@ This 3D game was started by following Thomas Brush's tutorial and is being conti
 Juliette0070
 
 ## Currently
-Collect the 20 orbs and go back to the rune.
-Deer makes noise when touched by the player.
+Collect the 20 orbs and pet the dog 5 times then go back to the rune.
+
+Deer and dog make noise when touched by the player.
+Dog follows the player, running when too far.
