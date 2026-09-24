@@ -11,7 +11,7 @@ public class Deer : MonoBehaviour, IAnimal {
     public List<Transform> pathPoints;
     public int pathIndex;
 
-    public Transform getDestination() {
+    public Transform GetDestination() {
         return pathPoints[pathIndex];
     }
     

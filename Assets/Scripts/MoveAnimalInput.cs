@@ -27,7 +27,7 @@ public class MoveAnimalInput : MonoBehaviour {
         m_IsRun = false;
         m_IsJump = false;
 
-        Transform m_Destination = m_Animal.getDestination();
+        Transform m_Destination = m_Animal.GetDestination();
         if (m_Destination == null) {
             m_Axis = Vector2.zero;
             return;

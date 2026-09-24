@@ -1,5 +1,5 @@
 using UnityEngine;
 
 public interface IAnimal {
-    Transform getDestination();
+    Transform GetDestination();
 }

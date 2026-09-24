@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
     public int orbs = 0;
+    public int nbTimesPetted = 0;
     public AudioSource playerSounds;
     public AudioClip winSound;
     public Image levelSplash;

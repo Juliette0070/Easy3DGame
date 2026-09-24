@@ -445,6 +445,8 @@
 "Assets/Scripts/Deer.cs"
 "Assets/Scripts/Dog.cs"
 "Assets/Scripts/IAnimal.cs"
+"Assets/Scripts/IInteractable.cs"
+"Assets/Scripts/InteractionController.cs"
 "Assets/Scripts/MoveAnimalInput.cs"
 "Assets/Scripts/MoveDogInput.cs"
 "Assets/Scripts/Orb.cs"

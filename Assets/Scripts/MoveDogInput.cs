@@ -4,7 +4,7 @@ using UnityEngine;
 public class MoveDogInput : MoveAnimalInput {
 
     public override void GatherInput() {
-        Transform m_Destination = m_Animal.getDestination();
+        Transform m_Destination = m_Animal.GetDestination();
         if (m_Destination == null) {
             m_Axis = Vector2.zero;
             return;
