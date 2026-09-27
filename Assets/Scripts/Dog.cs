@@ -10,6 +10,7 @@ public class Dog : MonoBehaviour, IAnimal, IInteractable {
     public List<AudioClip> audioClips;
     public AudioClip petAudioClip;
     public Player player;
+    private ParticleSystem petParticleSystem;
     
     [SerializeField]
     string objectInteractMessage;
@@ -18,6 +19,7 @@ public class Dog : MonoBehaviour, IAnimal, IInteractable {
 
     void Start() {
         player = GameObject.Find("FirstPersonController").GetComponent<Player>();
+        petParticleSystem = GetComponent<ParticleSystem>();
     }
 
     public void Interact() {
@@ -29,6 +31,7 @@ public class Dog : MonoBehaviour, IAnimal, IInteractable {
         dogSounds.clip = petAudioClip;
         dogSounds.Play();
         player.nbTimesPetted++;
+        petParticleSystem.Play();
     }
 
     public Transform GetDestination() {
