@@ -6,7 +6,7 @@
   "inputs": [
     "E:\\fichiers\\Unity\\3D\\Easy3DGame\\Packages\\manifest.json",
     "E:\\fichiers\\Unity\\3D\\Easy3DGame\\Packages\\packages-lock.json",
-    "C:\\Program Files\\Unity\\Hub\\Editor\\6000.3.10f1\\Editor\\Data\\Resources\\PackageManager\\BuiltInPackages\\BuiltInPackagesCombined.sha1"
+    "E:\\Programmes\\Unity\\Hub\\Editor\\6000.3.10f1\\Editor\\Data\\Resources\\PackageManager\\BuiltInPackages\\BuiltInPackagesCombined.sha1"
   ],
   "outputs": {
     "com.unity.ai.navigation@2.0.10": {
@@ -78,13 +78,13 @@
       "source": "builtin",
       "testable": false
     },
-    "com.unity.postprocessing@3.5.1": {
+    "com.unity.postprocessing@3.5.4": {
       "name": "com.unity.postprocessing",
       "displayName": "Post Processing",
-      "resolvedPath": "E:\\fichiers\\Unity\\3D\\Easy3DGame\\Library\\PackageCache\\com.unity.postprocessing@4a41da475b74",
-      "fingerprint": "4a41da475b743ff131a9cfa5fdb2ff80d2c0f2d4",
+      "resolvedPath": "E:\\fichiers\\Unity\\3D\\Easy3DGame\\Library\\PackageCache\\com.unity.postprocessing@141166b789e3",
+      "fingerprint": "141166b789e3df4d2a816ea0dc441d73da8db3e6",
       "editorCompatibility": "2019.4.19f1",
-      "version": "3.5.1",
+      "version": "3.5.4",
       "source": "registry",
       "testable": false
     },
