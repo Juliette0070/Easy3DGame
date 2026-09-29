@@ -20,3 +20,5 @@ Juliette0070
 Deer and dog make noise when touched by the player.
 
 Dog follows the player, running when too far.
+
+Dog makes hearts when petted.
