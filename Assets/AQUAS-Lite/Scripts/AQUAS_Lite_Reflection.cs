@@ -21,113 +21,168 @@ namespace AQUAS_Lite
 
         private static bool s_InsideRendering = false;
 
+        private Camera m_PendingCamera;
+        private Camera m_PendingReflectionCamera;
+        private bool m_ReflectionPending;
+
         public bool ignoreOcclusionCulling;
 
 #if UNITY_5_3 || UNITY_5_4 || UNITY_5_5
     public bool disableInEditMode;
 #endif
 
+        private void OnEnable()
+        {
+            Camera.onPreCull += OnCameraPreCull;
+        }
+
         public void OnWillRenderObject()
         {
+        #if UNITY_5_3 || UNITY_5_4 || UNITY_5_5
+            if (disableInEditMode && !Application.isPlaying)
+            {
+                OnDisable();
+                return;
+            }
+        #endif
 
-#if UNITY_5_3 || UNITY_5_4 || UNITY_5_5
-        if (disableInEditMode && !Application.isPlaying)
-        {
-            OnDisable();
-            return;
-        }
-#endif
-
-            if (!enabled || !GetComponent<Renderer>() || !GetComponent<Renderer>().sharedMaterial || !GetComponent<Renderer>().enabled)
+            if (!enabled || !GetComponent<Renderer>() ||
+                !GetComponent<Renderer>().sharedMaterial ||
+                !GetComponent<Renderer>().enabled)
                 return;
 
             Camera cam = Camera.current;
             if (!cam)
                 return;
 
-            // Safeguard from recursive reflections.        
+            // Do not render a nested camera from OnWillRenderObject.
+            // Just remember which camera needs a reflection.
             if (s_InsideRendering)
                 return;
-            s_InsideRendering = true;
 
             Camera reflectionCamera;
             CreateMirrorObjects(cam, out reflectionCamera);
 
-            // find out the reflection plane: position and normal in world space
-            Vector3 pos = transform.position;
-            Vector3 normal = transform.up;
+            m_PendingCamera = cam;
+            m_PendingReflectionCamera = reflectionCamera;
+            m_ReflectionPending = true;
+        }
+        
+        private void OnCameraPreCull(Camera cam)
+        {
+            if (!m_ReflectionPending ||
+                m_PendingCamera != cam ||
+                !m_PendingReflectionCamera)
+                return;
 
-            // Optionally disable pixel lights for reflection
+            if (s_InsideRendering)
+                return;
+
+            RenderReflection(cam, m_PendingReflectionCamera);
+
+            m_ReflectionPending = false;
+            m_PendingCamera = null;
+            m_PendingReflectionCamera = null;
+        }
+
+        private void RenderReflection(Camera cam, Camera reflectionCamera)
+        {
+            s_InsideRendering = true;
+
             int oldPixelLightCount = QualitySettings.pixelLightCount;
             if (m_DisablePixelLights)
                 QualitySettings.pixelLightCount = 0;
 
-            UpdateCameraModes(cam, reflectionCamera);
-
-            // Render reflection
-            // Reflect camera around reflection plane
-            float d = -Vector3.Dot(normal, pos) - m_ClipPlaneOffset;
-            Vector4 reflectionPlane = new Vector4(normal.x, normal.y, normal.z, d);
-
-            if (ignoreOcclusionCulling)
+            try
             {
-                reflectionCamera.useOcclusionCulling = false;
+                UpdateCameraModes(cam, reflectionCamera);
+
+                Vector3 pos = transform.position;
+                Vector3 normal = transform.up;
+
+                float d = -Vector3.Dot(normal, pos) - m_ClipPlaneOffset;
+                Vector4 reflectionPlane = new Vector4(normal.x, normal.y, normal.z, d);
+
+                reflectionCamera.useOcclusionCulling = !ignoreOcclusionCulling;
+
+                Matrix4x4 reflection = Matrix4x4.zero;
+                CalculateReflectionMatrix(ref reflection, reflectionPlane);
+
+                Vector3 oldpos = cam.transform.position;
+                Vector3 newpos = reflection.MultiplyPoint(oldpos);
+
+                reflectionCamera.worldToCameraMatrix =
+                    cam.worldToCameraMatrix * reflection;
+
+                Vector4 clipPlane =
+                    CameraSpacePlane(reflectionCamera, pos, normal, 1.0f);
+
+                Matrix4x4 projection = cam.projectionMatrix;
+                CalculateObliqueMatrix(ref projection, clipPlane);
+                reflectionCamera.projectionMatrix = projection;
+
+                reflectionCamera.cullingMask =
+                    ~(1 << 4) & m_ReflectLayers.value;
+
+                reflectionCamera.targetTexture = m_ReflectionTexture;
+
+                GL.invertCulling = true;
+
+                reflectionCamera.transform.position = newpos;
+
+                Vector3 euler = cam.transform.eulerAngles;
+                reflectionCamera.transform.eulerAngles =
+                    new Vector3(0, euler.y, euler.z);
+
+                reflectionCamera.Render();
+
+                reflectionCamera.transform.position = oldpos;
+
+                GL.invertCulling = false;
+
+                Material[] materials = GetComponent<Renderer>().sharedMaterials;
+
+                foreach (Material mat in materials)
+                {
+                    if (mat.HasProperty("_ReflectionTex"))
+                        mat.SetTexture("_ReflectionTex", m_ReflectionTexture);
+                }
+
+                Matrix4x4 scaleOffset = Matrix4x4.TRS(
+                    new Vector3(0.5f, 0.5f, 0.5f),
+                    Quaternion.identity,
+                    new Vector3(0.5f, 0.5f, 0.5f));
+
+                Vector3 scale = transform.lossyScale;
+
+                Matrix4x4 mtx =
+                    transform.localToWorldMatrix *
+                    Matrix4x4.Scale(new Vector3(
+                        1.0f / scale.x,
+                        1.0f / scale.y,
+                        1.0f / scale.z));
+
+                mtx = scaleOffset *
+                    cam.projectionMatrix *
+                    cam.worldToCameraMatrix *
+                    mtx;
+
+                foreach (Material mat in materials)
+                {
+                    mat.SetMatrix("_ProjMatrix", mtx);
+                }
             }
-            else
+            finally
             {
-                reflectionCamera.useOcclusionCulling = true;
+                GL.invertCulling = false;
+
+                if (m_DisablePixelLights)
+                    QualitySettings.pixelLightCount = oldPixelLightCount;
+
+                s_InsideRendering = false;
             }
-
-
-            Matrix4x4 reflection = Matrix4x4.zero;
-            CalculateReflectionMatrix(ref reflection, reflectionPlane);
-            Vector3 oldpos = cam.transform.position;
-            Vector3 newpos = reflection.MultiplyPoint(oldpos);
-            reflectionCamera.worldToCameraMatrix = cam.worldToCameraMatrix * reflection;
-
-            // Setup oblique projection matrix so that near plane is our reflection
-            // plane. This way we clip everything below/above it for free.
-            Vector4 clipPlane = CameraSpacePlane(reflectionCamera, pos, normal, 1.0f);
-            Matrix4x4 projection = cam.projectionMatrix;
-            CalculateObliqueMatrix(ref projection, clipPlane);
-            reflectionCamera.projectionMatrix = projection;
-
-            reflectionCamera.cullingMask = ~(1 << 4) & m_ReflectLayers.value; // never render water layer
-            reflectionCamera.targetTexture = m_ReflectionTexture;
-            GL.invertCulling = true;        //should be used
-                                            //GL.SetRevertBackfacing (true);    //obsolete
-            reflectionCamera.transform.position = newpos;
-            Vector3 euler = cam.transform.eulerAngles;
-            reflectionCamera.transform.eulerAngles = new Vector3(0, euler.y, euler.z);
-            reflectionCamera.Render();
-            reflectionCamera.transform.position = oldpos;
-            GL.invertCulling = false;        //should be used
-                                             //GL.SetRevertBackfacing (false);   //obsolete
-            Material[] materials = GetComponent<Renderer>().sharedMaterials;
-            foreach (Material mat in materials)
-            {
-                if (mat.HasProperty("_ReflectionTex"))
-                    mat.SetTexture("_ReflectionTex", m_ReflectionTexture);
-            }
-
-            // Set matrix on the shader that transforms UVs from object space into screen
-            // space. We want to just project reflection texture on screen.
-            Matrix4x4 scaleOffset = Matrix4x4.TRS(
-                new Vector3(0.5f, 0.5f, 0.5f), Quaternion.identity, new Vector3(0.5f, 0.5f, 0.5f));
-            Vector3 scale = transform.lossyScale;
-            Matrix4x4 mtx = transform.localToWorldMatrix * Matrix4x4.Scale(new Vector3(1.0f / scale.x, 1.0f / scale.y, 1.0f / scale.z));
-            mtx = scaleOffset * cam.projectionMatrix * cam.worldToCameraMatrix * mtx;
-            foreach (Material mat in materials)
-            {
-                mat.SetMatrix("_ProjMatrix", mtx);
-            }
-
-            // Restore pixel light count
-            if (m_DisablePixelLights)
-                QualitySettings.pixelLightCount = oldPixelLightCount;
-
-            s_InsideRendering = false;
         }
+
         #endregion
 
         //<summary>
@@ -135,6 +190,12 @@ namespace AQUAS_Lite
         //</summary>
         void OnDisable()
         {
+            Camera.onPreCull -= OnCameraPreCull;
+
+            m_PendingCamera = null;
+            m_PendingReflectionCamera = null;
+            m_ReflectionPending = false;
+            
             if (m_ReflectionTexture)
             {
                 DestroyImmediate(m_ReflectionTexture);
