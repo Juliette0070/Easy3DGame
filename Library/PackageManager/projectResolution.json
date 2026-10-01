@@ -6,7 +6,8 @@
   "inputs": [
     "E:\\fichiers\\Unity\\3D\\Easy3DGame\\Packages\\manifest.json",
     "E:\\fichiers\\Unity\\3D\\Easy3DGame\\Packages\\packages-lock.json",
-    "E:\\Programmes\\Unity\\Hub\\Editor\\6000.3.10f1\\Editor\\Data\\Resources\\PackageManager\\BuiltInPackages\\BuiltInPackagesCombined.sha1"
+    "E:\\Programmes\\Unity\\Hub\\Editor\\6000.3.10f1\\Editor\\Data\\Resources\\PackageManager\\BuiltInPackages\\BuiltInPackagesCombined.sha1",
+    "E:\\fichiers\\Unity\\3D\\Easy3DGame\\Packages\\com.unity.ide.vscode\\package.json"
   ],
   "outputs": {
     "com.unity.ai.navigation@2.0.10": {
@@ -58,15 +59,15 @@
       "source": "registry",
       "testable": false
     },
-    "com.unity.ide.vscode@1.2.5": {
+    "com.unity.ide.vscode@file:E:\\fichiers\\Unity\\3D\\Easy3DGame\\Packages\\com.unity.ide.vscode": {
       "name": "com.unity.ide.vscode",
       "displayName": "Visual Studio Code Editor",
-      "resolvedPath": "E:\\fichiers\\Unity\\3D\\Easy3DGame\\Library\\PackageCache\\com.unity.ide.vscode@82e68656b7bd",
+      "resolvedPath": "E:\\fichiers\\Unity\\3D\\Easy3DGame\\Packages\\com.unity.ide.vscode",
       "fingerprint": "82e68656b7bdc5da8beb1fbaf1bb4ecf13456d51",
       "editorCompatibility": "2019.2.0a12",
       "version": "1.2.5",
-      "source": "registry",
-      "testable": false
+      "source": "embedded",
+      "testable": true
     },
     "com.unity.multiplayer.center@1.0.1": {
       "name": "com.unity.multiplayer.center",

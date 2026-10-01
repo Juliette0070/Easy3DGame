@@ -13,10 +13,18 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 639263166050681081
-    m_Hash: 3094664479
+      ticks: 639264741605544611
+    m_Hash: 1890630802
 m_EmbeddedPackageManifests:
-  m_ManifestsStatus: {}
+  m_ManifestsStatus:
+    E:/fichiers/Unity/3D/Easy3DGame/Packages/com.unity.ide.vscode/package.json:
+      m_FilePath: E:/fichiers/Unity/3D/Easy3DGame/Packages/com.unity.ide.vscode/package.json
+      m_PathExists: 1
+      m_ContentTrackingEnabled: 1
+      m_ModificationDate:
+        serializedVersion: 2
+        ticks: 637800255360000000
+      m_Hash: 3072187890
 m_LocalPackages:
   m_LocalFileStatus: []
 m_ProjectPath: E:/fichiers/Unity/3D/Easy3DGame/Packages
@@ -772,12 +780,12 @@ m_ResolvedPackages:
       scopePatternExpression: 
       message: 
       readMoreLink: 
-- packageId: com.unity.ide.vscode@1.2.5
-  testable: 0
+- packageId: com.unity.ide.vscode@file:E:\fichiers\Unity\3D\Easy3DGame\Packages\com.unity.ide.vscode
+  testable: 1
   isDirectDependency: 1
   version: 1.2.5
-  source: 1
-  resolvedPath: E:\fichiers\Unity\3D\Easy3DGame\Library\PackageCache\com.unity.ide.vscode@82e68656b7bd
+  source: 3
+  resolvedPath: E:\fichiers\Unity\3D\Easy3DGame\Packages\com.unity.ide.vscode
   assetPath: Packages/com.unity.ide.vscode
   name: com.unity.ide.vscode
   displayName: Visual Studio Code Editor
@@ -786,7 +794,7 @@ m_ResolvedPackages:
     email: 
     url: 
   category: 
-  type: asset
+  type: 
   description: Code editor integration for supporting Visual Studio Code as code
     editor for unity. Adds support for generating csproj files for intellisense purposes,
     auto discovery of installations, etc.
@@ -838,9 +846,9 @@ m_ResolvedPackages:
       violations: []
   hideInEditor: 1
   entitlements:
-    licensingModel: 1
+    licensingModel: 0
   isAssetStorePackage: 0
-  datePublishedTicks: 637800255360000000
+  datePublishedTicks: 0
   documentationUrl: 
   hasRepository: 1
   repository:
@@ -863,8 +871,8 @@ m_ResolvedPackages:
     revision: 
   upmReserved: 
   signature:
-    status: 1
-    reason: Signature is ok
+    status: 0
+    reason: 
     attestation:
       format: 
       publishingChannel: 
