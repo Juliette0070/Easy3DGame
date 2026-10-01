@@ -7,6 +7,10 @@ This 3D game was started by following Thomas Brush's tutorial and is being conti
 ## Author
 Juliette0070
 
+# Trello
+
+https://trello.com/b/z07RJafi/easy3dgame
+
 ## Currently
 
 ### Objectives
